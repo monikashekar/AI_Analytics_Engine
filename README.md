@@ -149,6 +149,46 @@ Example:
 
 ---
 
+## Demo
+
+Example query using the AI analytics engine.
+
+### Request
+
+POST `/analytics/query`
+
+```json
+{
+  "question": "Show revenue by region"
+}
+```
+
+### Generated SQL
+
+```sql
+SELECT c.region, SUM(s."totalAmount") AS revenue
+FROM sales s
+JOIN customers c ON s.customer_id = c.id
+GROUP BY c.region;
+```
+
+### Response
+
+```json
+{
+  "question": "Show revenue by region",
+  "generatedSQL": "SELECT c.region, SUM(s.\"totalAmount\") AS revenue FROM sales s JOIN customers c ON s.customer_id = c.id GROUP BY c.region;",
+  "result": [
+    { "region": "India", "revenue": 34567 },
+    { "region": "Germany", "revenue": 29811 },
+    { "region": "United States", "revenue": 27112 }
+  ]
+}
+```
+
+This demonstrates how the system converts natural language questions into SQL queries using a local LLM and returns analytics results from PostgreSQL.
+
+
 ## 📌 Future Improvements
 
 * Query caching with Redis
