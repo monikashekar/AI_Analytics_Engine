@@ -18,19 +18,32 @@ An AI-powered analytics backend built with **NestJS, PostgreSQL, and local LLMs 
 
 ## 🏗 Architecture
 
+```
 User Question
-↓
-NestJS API
-↓
-Ollama (Llama3)
-↓
-Generated SQL
-↓
-SQL Validator
-↓
-PostgreSQL Execution
-↓
-Analytics Result
+      |
+      v
+POST /analytics/query
+      |
+      v
+NestJS Backend
+      |
+      v
+AI Service (Ollama / Llama3)
+      |
+      v
+Natural Language → SQL
+      |
+      v
+SQL Safety Validator
+      |
+      v
+PostgreSQL Query Execution
+      |
+      v
+Analytics Result Returned
+```
+
+This pipeline converts natural language questions into SQL queries using a local LLM and executes them safely against a PostgreSQL analytics dataset.
 
 ---
 
