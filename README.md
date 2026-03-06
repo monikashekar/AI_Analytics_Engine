@@ -1,98 +1,146 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# AI Analytics Engine
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+An AI-powered analytics backend built with **NestJS, PostgreSQL, and local LLMs (Ollama)** that converts natural language questions into SQL queries and executes them against a relational dataset.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+• Natural language → SQL query generation
+• Local LLM integration using **Llama3 via Ollama**
+• SQL safety validation layer
+• PostgreSQL analytics dataset
+• REST API for analytics queries
+• Automatic SQL correction for camelCase columns
+• Dockerized PostgreSQL database
 
-## Project setup
+---
 
-```bash
-$ npm install
+## 🏗 Architecture
+
+User Question
+↓
+NestJS API
+↓
+Ollama (Llama3)
+↓
+Generated SQL
+↓
+SQL Validator
+↓
+PostgreSQL Execution
+↓
+Analytics Result
+
+---
+
+## 🛠 Tech Stack
+
+Backend
+
+* NestJS
+* TypeScript
+* TypeORM
+
+Database
+
+* PostgreSQL
+* Docker
+
+AI Layer
+
+* Ollama
+* Llama3
+
+Other
+
+* Faker (data generation)
+
+---
+
+## 📊 Example Query
+
+Request:
+
+POST /analytics/query
+
+```json
+{
+  "question": "Show revenue by region"
+}
 ```
 
-## Compile and run the project
+Response:
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```json
+{
+  "generatedSQL": "SELECT c.region, SUM(s.\"totalAmount\") AS revenue FROM sales s JOIN customers c ON s.customer_id = c.id GROUP BY c.region;",
+  "result": [
+    { "region": "India", "revenue": 34567 },
+    { "region": "Germany", "revenue": 29811 }
+  ]
+}
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## ⚡ Running the Project
 
-# e2e tests
-$ npm run test:e2e
+Install dependencies
 
-# test coverage
-$ npm run test:cov
+```
+npm install
 ```
 
-## Deployment
+Start PostgreSQL
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+docker compose up -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Run backend
 
-## Resources
+```
+npm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Seed database
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
+npm run seed
+```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🤖 AI Query Endpoint
 
-## Stay in touch
+```
+POST /analytics/query
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Example:
 
-## License
+```json
+{
+  "question": "Top 5 customers by revenue"
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 🔒 Safety Guardrails
+
+• Only SELECT queries allowed
+• Dangerous SQL operations blocked
+• SQL validation layer before execution
+
+---
+
+## 📌 Future Improvements
+
+* Query caching with Redis
+* Frontend dashboard (React)
+* Schema auto-discovery
+* Query history logging
+
+---
